@@ -7,7 +7,7 @@ const IconA = ({ size, label, onClick }) => {
         cursor: 'pointer',
         margin: '0 5px',
         fontWeight: 'bold',
-        transition: 'color 0.1s' // Płynna zmiana koloru przy najechaniu
+        transition: 'color 0.1s'
     };
 
     return (
