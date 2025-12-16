@@ -22,13 +22,12 @@ const IconA = ({ size, label, onClick }) => {
 };
 
 const AppHeader = ({ onFontSizeChange }) => {
-    // Dane autora (Punkt 1)
-    const authorName = "Jan Gryczon"; // Zmień na swoje dane
+    const authorName = "Jan Gryczon";
 
     return (
         <header className="app-header">
             <div className="header-author">
-                Aplikacja Kalkulator | Autor: **{authorName}**
+                Autor: {authorName}
             </div>
             
             <div className="header-controls">
