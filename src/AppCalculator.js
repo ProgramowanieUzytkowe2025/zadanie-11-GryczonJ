@@ -104,12 +104,11 @@ const AppCalculator = () => {
 
     };
 
-    // --- Renderowanie (JSX z klasami CSS) ---
+
     return (
         <div className="app-calculator">
             <h3>🔢 Kalkulator AppCalculator</h3>
 
-            {/* Pola Input A i B (Punkt 1) */}
             <div className="input-group">
                 <label htmlFor="inputA">A:</label>
                 <input
@@ -125,7 +124,6 @@ const AppCalculator = () => {
 
             <hr />
             
-            {/* Punkt 5 Pole Wyniku Porównania */}
             <div className="comparison-section">
                 <p>📈 Wynik Porównania:</p>
                 <input
@@ -136,7 +134,6 @@ const AppCalculator = () => {
                 />
             </div>
 
-            {/* Przyciski Akcji (Działania, Punkt 3) */}
             <div className="action-buttons">
                 <AppActionButton label="Dodaj (+)" onClick={() => handleOperation('ADD')}           disabled={!areInputsValid} />
                 <AppActionButton label="Odejmij (-)" onClick={() => handleOperation('SUBTRACT')}    disabled={!areInputsValid} />
@@ -144,7 +141,6 @@ const AppCalculator = () => {
                 <AppActionButton label="Podziel (/)" onClick={() => handleOperation('DIVIDE')}      disabled={!areInputsValid || parseFloat(numberB) === 0} />
             </div>
 
-            {/* Pole Wyniku Działania (Punkt 2) */}
             <div className="result-display">
                 <label htmlFor="resultDisplay">Wynik Działania:</label>
                 <input
