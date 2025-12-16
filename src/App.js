@@ -9,11 +9,9 @@ function App() {
   const [fontSize, setFontSize] = useState('medium');
   return (
     <div className={`app-container font-size-${fontSize}`}>
-                
-                <AppHeader onFontSizeChange={setFontSize} /> 
-                <AppCalculator /> 
-            </div>
-    
+       <AppHeader onFontSizeChange={setFontSize} /> 
+      <AppCalculator /> 
+     </div>
   );
 }
 
