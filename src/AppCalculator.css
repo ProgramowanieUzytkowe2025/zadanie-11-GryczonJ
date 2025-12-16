@@ -26,7 +26,7 @@
 
 .input-group label {
     display: inline-block;
-    width: 60px; /* Stała szerokość dla etykiet */
+    width: 60px; 
     font-weight: bold;
     margin-right: 10px;
 }
@@ -39,7 +39,6 @@
     flex-grow: 1;
 }
 
-/* Sekcja porównania */
 .comparison-section {
     margin-top: 15px;
     margin-bottom: 25px;
@@ -56,7 +55,7 @@
 
 #comparisonDisplay {
     width: 100%;
-    border: none !important; /* Nadpisujemy domyślne style input */
+    border: none !important; 
     background-color: transparent;
     font-weight: 600;
     color: #0056b3;
@@ -88,8 +87,6 @@
     border-color: #4CAF50;
 }
 
-/* AppCalculator.css (dodaj na końcu) */
-
 .app-action-button {
     margin: 5px;
     padding: 10px 15px;
@@ -104,4 +101,62 @@
 
 .app-action-button:hover {
     background-color: #0056b3;
+}
+
+.app-action-button:disabled {
+    background-color: #cccccc; 
+    color: #666666;
+    cursor: not-allowed; 
+    box-shadow: none;
+}
+
+
+.calculation-history {
+    margin-top: 25px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.calculation-history h4 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.calculation-history table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.calculation-history th,
+.calculation-history td {
+    border: 1px solid #eee;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.calculation-history th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.calculation-history td:nth-child(4) { /* Kolumna Wynik */
+    font-weight: bold;
+    color: green;
+}
+
+.restore-button {
+    padding: 5px 10px;
+    border: 1px solid #28a745;
+    border-radius: 4px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.2s;
+}
+
+.restore-button:hover {
+    background-color: #1e7e34;
 }

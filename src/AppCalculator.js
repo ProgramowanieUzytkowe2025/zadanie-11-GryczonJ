@@ -1,16 +1,17 @@
 // AppCalculator.js
 import React, { useState } from 'react';
 import AppActionButton from './AppActionButton';
-import './AppCalculator.css'; // <--- TUTAJ IMPORTUJEMY PLIK STYLI
+import AppCalculationHistory from './AppCalculationHistory';
+import './AppCalculator.css'; 
 
 const AppCalculator = () => {
-    // Zarządzanie Stanem:
     const [numberA, setNumberA] = useState('');
     const [numberB, setNumberB] = useState('');
     const [result, setResult] = useState(0); 
     const [comparisonResult, setComparisonResult] = useState('Wprowadź liczby'); 
+    const areInputsValid = numberA !== '' && numberB !== '';
 
-    // --- Funkcje Pomocnicze i Logika (bez zmian) ---
+    const [calculationHistory, setCalculationHistory] = useState([]);
 
     const getNumbers = () => {
         const numA = parseFloat(numberA) || 0;
@@ -24,6 +25,12 @@ const AppCalculator = () => {
 
         if (a === '' && b === '') {
              return 'Wprowadź liczby do pól A i B';
+        }
+        else if (a === '') {
+            return 'Wprowadź liczbę do pola A';
+        }
+        else if (b === '') {
+            return 'Wprowadź liczbę do pola B';
         }
 
         if (numA > numB) {
@@ -40,30 +47,61 @@ const AppCalculator = () => {
     const handleOperation = (operation) => {
         const { numA, numB } = getNumbers();
         let calculatedResult;
+        let operationSymbol;
 
         switch (operation) {
-            case 'ADD': calculatedResult = numA + numB; break;
-            case 'SUBTRACT': calculatedResult = numA - numB; break;
-            case 'MULTIPLY': calculatedResult = numA * numB; break;
+            case 'ADD': calculatedResult = numA + numB; operationSymbol = '+'; break;
+            case 'SUBTRACT': calculatedResult = numA - numB; operationSymbol = '-'; break;
+            case 'MULTIPLY': calculatedResult = numA * numB; operationSymbol = '*'; break;
             case 'DIVIDE':
                 calculatedResult = (numB === 0) ? 'Błąd: Dzielenie przez 0' : numA / numB;
+                operationSymbol = '/';
                 break;
             default: calculatedResult = 0;
         }
 
         setResult(calculatedResult);
-    };
 
-    const handleNumberAChange = (event) => {
-        const value = event.target.value;
-        setNumberA(value);
-        setComparisonResult(performComparison(value, numberB));
+        const newHistoryItem = {
+            numA: numA,
+            operation: operationSymbol,
+            numB: numB,
+            result: calculatedResult,
+            timestamp: new Date().toLocaleTimeString('pl-PL'), 
+        };
+
+        setCalculationHistory([newHistoryItem, ...calculationHistory]);   
+    };
+    
+    const handleRestore = (index) => {
+        const restoredItem = calculationHistory[index];
+       
+        const newHistory = calculationHistory.slice(index);
+        
+        const newA = String(restoredItem.numA);
+        const newB = String(restoredItem.numB);
+        
+        setNumberA(newA);
+        setNumberB(newB);
+        
+        setResult(restoredItem.result);
+
+        setComparisonResult(performComparison(newA, newB));
+        
+        setCalculationHistory(newHistory);
     };
 
     const handleNumberBChange = (event) => {
         const value = event.target.value;
         setNumberB(value);
         setComparisonResult(performComparison(numberA, value));
+    };
+
+     const handleNumberAChange = (event) => {
+        const value = event.target.value;
+        setNumberA(value);
+        setComparisonResult(performComparison(value, numberB));
+
     };
 
     // --- Renderowanie (JSX z klasami CSS) ---
@@ -87,7 +125,7 @@ const AppCalculator = () => {
 
             <hr />
             
-            {/* Pole Wyniku Porównania */}
+            {/* Punkt 5 Pole Wyniku Porównania */}
             <div className="comparison-section">
                 <p>📈 Wynik Porównania:</p>
                 <input
@@ -100,10 +138,10 @@ const AppCalculator = () => {
 
             {/* Przyciski Akcji (Działania, Punkt 3) */}
             <div className="action-buttons">
-                <AppActionButton label="Dodaj (+)" onClick={() => handleOperation('ADD')} />
-                <AppActionButton label="Odejmij (-)" onClick={() => handleOperation('SUBTRACT')} />
-                <AppActionButton label="Pomnóż (*)" onClick={() => handleOperation('MULTIPLY')} />
-                <AppActionButton label="Podziel (/)" onClick={() => handleOperation('DIVIDE')} />
+                <AppActionButton label="Dodaj (+)" onClick={() => handleOperation('ADD')}           disabled={!areInputsValid} />
+                <AppActionButton label="Odejmij (-)" onClick={() => handleOperation('SUBTRACT')}    disabled={!areInputsValid} />
+                <AppActionButton label="Pomnóż (*)" onClick={() => handleOperation('MULTIPLY')}     disabled={!areInputsValid} />
+                <AppActionButton label="Podziel (/)" onClick={() => handleOperation('DIVIDE')}      disabled={!areInputsValid || parseFloat(numberB) === 0} />
             </div>
 
             {/* Pole Wyniku Działania (Punkt 2) */}
@@ -116,6 +154,10 @@ const AppCalculator = () => {
                     readOnly
                 />
             </div>
+            <AppCalculationHistory 
+                history={calculationHistory} 
+                onRestore={handleRestore} 
+            />
         </div>
     );
 };
